@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(respeaker_ros)
 
 find_package(catkin REQUIRED COMPONENTS
-  catkin_virtualenv
+#  catkin_virtualenv
   dynamic_reconfigure)
 
 generate_dynamic_reconfigure_options(
@@ -10,7 +10,7 @@ generate_dynamic_reconfigure_options(
 
 catkin_package()
 
-catkin_generate_virtualenv()
+# catkin_generate_virtualenv()
 
 catkin_install_python(
   PROGRAMS
