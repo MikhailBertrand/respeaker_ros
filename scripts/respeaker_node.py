@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # Author: furushchev <furushchev@jsk.imi.i.u-tokyo.ac.jp>
 
+import os
 import angles
 from contextlib import contextmanager
 import usb.core
@@ -10,7 +11,6 @@ import pyaudio
 import math
 import numpy as np
 import tf.transformations as T
-import os
 import rospy
 import struct
 import sys
@@ -363,13 +363,13 @@ class RespeakerNode(object):
         if self.timer_led and self.timer_led.is_alive():
             self.timer_led.shutdown()
         self.timer_led = rospy.Timer(rospy.Duration(3.0),
-                                       lambda e: self.respeaker.set_led_trace(),
-                                       oneshot=True)
+                                     lambda e: self.respeaker.set_led_trace(),
+                                     oneshot=True)
 
     def on_audio(self, data):
         self.pub_audio.publish(AudioData(data=data))
         if self.is_speeching:
-            if len(self.speech_audio_buffer) == 0:
+            if not self.speech_audio_buffer:
                 self.speech_audio_buffer = self.speech_prefetch_buffer
             self.speech_audio_buffer += data
         else:
@@ -425,5 +425,5 @@ class RespeakerNode(object):
 
 if __name__ == '__main__':
     rospy.init_node("respeaker_node")
-    n = RespeakerNode()
+    N = RespeakerNode()
     rospy.spin()
